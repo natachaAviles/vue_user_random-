@@ -1,42 +1,70 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div id="e3" style="max-width: 400px; margin: auto;" class="grey lighten-3">
+    <v-card v-for="user in users" v-bind="user.id" v-bind:data="user" v-bind:key="user.text">
+      <v-container fluid grid-list-lg>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <v-card color="cyan darken-2" class="white--text">
+              <v-layout>
+                <v-flex xs12 md12>
+                  <v-img
+                    :src="user.picture.large"
+                    height="125px"
+                    contain
+                    :lazy-src="user.picture.large"
+                    aspect-ratio="1"
+                  ></v-img>
+                </v-flex>
+                <v-flex xs12 md12>
+                  <v-card-title primary-title>
+                    <div>
+                      <div class="headline">Name: {{user.name.first}}</div>
+                      <div>Email: {{user.email}}</div>
+                      <div>Celphone: {{user.cell}}</div>
+                      <div>Age: {{user.registered.age}}</div>
+                    </div>
+                  </v-card-title>
+                </v-flex>
+              </v-layout>
+              <v-divider light></v-divider>
+              <v-card-actions class="pa-3">Evaluate this user:
+                <v-rating v-model="rating" background-color="orange lighten-3" color="orange"></v-rating>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
   </div>
 </template>
 
 <script>
+import Axios from "axios";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String
+  },
+  data() {
+    return {
+      users: []
+    };
+  },
+  mounted() {
+    this.getUsers();
+  },
+  methods: {
+    getUsers() {
+      Axios.get("https://randomuser.me/api/")
+        .then(response => {
+          this.users = response.data.results;
+        })
+        .catch(error => {
+          alert("no se pudo cargar datos, intente nuevamente");
+        });
+    }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

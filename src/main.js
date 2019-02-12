@@ -1,8 +1,13 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
+import Axios from "axios";
+import Vuetify from "vuetify";
+import "vuetify/dist/vuetify.min.css"; // Ensure you are using css-loader
 
-Vue.config.productionTip = false
+Vue.use(Vuetify);
 
+Vue.config.productionTip = false;
+Vue.use(Axios);
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  render: h => h(App)
+}).$mount("#app");
